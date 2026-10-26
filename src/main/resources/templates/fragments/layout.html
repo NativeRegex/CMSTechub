@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' | CMSTechub'">CMSTechub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<nav th:fragment="nav(active)" class="topnav">
+    <div class="nav-inner">
+        <a th:href="@{/}" class="brand">
+            <span class="brand-prompt">root@cmstechub</span><span class="brand-path">:~$</span>
+        </a>
+        <ul class="nav-links">
+            <li><a th:href="@{/}"        th:classappend="${active == 'home'}     ? 'active'">home</a></li>
+            <li><a th:href="@{/about}"   th:classappend="${active == 'about'}    ? 'active'">about</a></li>
+            <li><a th:href="@{/projects}" th:classappend="${active == 'projects'} ? 'active'">projects</a></li>
+            <li><a th:href="@{/skills}"  th:classappend="${active == 'skills'}   ? 'active'">skills</a></li>
+            <li><a th:href="@{/contact}" th:classappend="${active == 'contact'}  ? 'active'">contact</a></li>
+        </ul>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    </div>
+</nav>
+
+<!-- Floating scroll buttons -->
+<div th:fragment="scrollButtons" class="scroll-fab-group">
+    <button class="scroll-fab" id="scroll-top-btn" title="Back to top" aria-label="Back to top">↑</button>
+    <button class="scroll-fab" id="scroll-bottom-btn" title="Scroll to bottom" aria-label="Scroll to bottom">↓</button>
+</div>
+
+<footer th:fragment="footer" class="site-footer">
+    <span class="footer-prompt">root@cmstechub:~$</span>
+    <span class="footer-text">echo "© 2026 CMSTechub · Built with Spring Boot + Thymeleaf"</span>
+    <span class="footer-cursor" id="footer-cursor">█</span>
+</footer>
+
+</body>
+</html>

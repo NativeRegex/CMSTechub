@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Home')}"></head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<nav th:replace="~{fragments/layout :: nav('home')}"></nav>
+
+<main class="page-content" th:if="${profile}">
+
+    <section class="hero">
+        <div class="hero-avatar-wrap">
+            <img th:src="@{/images/profile.jpg}" alt="Profile" class="hero-avatar"/>
+        </div>
+        <div class="hero-text">
+            <h1 th:text="${profile.fullName}">Your Name</h1>
+            <h2 th:text="${profile.title}">Title</h2>
+            <p class="hero-summary" th:text="${profile.summary}">Summary</p>
+            <div class="hero-actions">
+                <a th:href="@{/projects}" class="btn-primary">view projects →</a>
+                <a th:href="@{/contact}"  class="btn-ghost">get in touch</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="quick-links">
+        <a th:href="@{/about}" class="quick-card">
+            <span class="quick-icon">📖</span>
+            <span class="quick-title">about</span>
+            <span class="quick-desc">Who I am, what I study, what drives me.</span>
+        </a>
+        <a th:href="@{/projects}" class="quick-card">
+            <span class="quick-icon">⚙️</span>
+            <span class="quick-title">projects</span>
+            <span class="quick-desc">Things I've built and shipped.</span>
+        </a>
+        <a th:href="@{/skills}" class="quick-card">
+            <span class="quick-icon">🛠️</span>
+            <span class="quick-title">skills</span>
+            <span class="quick-desc">Languages, frameworks, and tools.</span>
+        </a>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script th:src="@{/js/matrix.js}"></script>
+<div th:replace="~{fragments/layout :: scrollButtons}"></div>
+</body>
+</html>

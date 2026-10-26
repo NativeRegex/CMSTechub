@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Contact')}"></head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<nav th:replace="~{fragments/layout :: nav('contact')}"></nav>
+
+<main class="page-content" th:if="${profile}">
+
+    <section class="page-header">
+        <div class="prompt-line">
+            <span class="puser">root@cmstechub</span>:<span class="ppath">~</span>$ <span class="pcmd">cat contact.txt</span>
+        </div>
+        <h1>Contact</h1>
+    </section>
+
+    <section class="contact-grid">
+
+        <a th:href="'mailto:' + ${profile.email}" class="contact-card">
+            <span class="contact-icon">📧</span>
+            <span class="contact-label">email</span>
+            <span class="contact-value" th:text="${profile.email}">email</span>
+        </a>
+
+        <a th:href="${profile.linkedin}" target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-icon">💼</span>
+            <span class="contact-label">linkedin</span>
+            <span class="contact-value">calistus-sirucha</span>
+        </a>
+
+        <a th:href="${profile.github}" target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-icon">🐙</span>
+            <span class="contact-label">github</span>
+            <span class="contact-value">NativeRegex</span>
+        </a>
+
+    </section>
+
+    <section class="content-block">
+        <h2>Say Hi</h2>
+        <p>
+            Open to collaboration, freelance work, and interesting IT problems.
+            Reach out by email and I'll respond within 24 hours.
+        </p>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script th:src="@{/js/matrix.js}"></script>
+<div th:replace="~{fragments/layout :: scrollButtons}"></div>
+</body>
+</html>

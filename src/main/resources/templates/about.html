@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('About')}"></head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<nav th:replace="~{fragments/layout :: nav('about')}"></nav>
+
+<main class="page-content" th:if="${profile}">
+
+    <section class="page-header">
+        <div class="prompt-line">
+            <span class="puser">root@cmstechub</span>:<span class="ppath">~</span>$ <span class="pcmd">cat about.txt</span>
+        </div>
+        <h1>About Me</h1>
+    </section>
+
+    <section class="content-block">
+        <h2>Who I Am</h2>
+        <p th:text="${profile.summary}">Summary</p>
+    </section>
+
+    <section class="content-block">
+        <h2>What I Study</h2>
+        <p>
+            Currently pursuing an IT degree while applying everything I learn to real projects.
+            My focus areas are full-stack development (Spring Boot + modern front-end),
+            database design, and Linux fundamentals — including Kali Linux for security testing.
+        </p>
+    </section>
+
+    <section class="content-block">
+        <h2>Why CMSTechub</h2>
+        <p>
+            <strong>CMSTechub</strong> comes from my initials (C.M.S.) plus <em>Techub</em> — a
+            place where my tech experiments, projects, and services live. It's my personal brand
+            and my playground for building things that matter.
+        </p>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script th:src="@{/js/matrix.js}"></script>
+<div th:replace="~{fragments/layout :: scrollButtons}"></div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Projects')}"></head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<nav th:replace="~{fragments/layout :: nav('projects')}"></nav>
+
+<main class="page-content">
+
+    <section class="page-header">
+        <div class="prompt-line">
+            <span class="puser">root@cmstechub</span>:<span class="ppath">~</span>$ <span class="pcmd">ls -la projects/</span>
+        </div>
+        <h1>Projects</h1>
+    </section>
+
+    <section class="projects-grid">
+
+        <article class="project-card">
+            <h2>CMSTechub</h2>
+            <p class="project-desc">
+                Personal portfolio and resume site built with Spring Boot, Thymeleaf, and JPA.
+                Live "hacker" animated background. Your data seeded from a database.
+            </p>
+            <div class="project-tags">
+                <span>Java</span><span>Spring Boot</span><span>Thymeleaf</span><span>H2</span>
+            </div>
+            <a href="https://github.com/NativeRegex" target="_blank" rel="noopener" class="project-link">
+                view on github →
+            </a>
+        </article>
+
+        <article class="project-card">
+            <h2>Kali Linux Lab</h2>
+            <p class="project-desc">
+                Self-guided penetration-testing lab. Practicing nmap scans, Metasploit basics,
+                and network analysis on intentionally vulnerable VMs.
+            </p>
+            <div class="project-tags">
+                <span>Kali</span><span>nmap</span><span>Metasploit</span><span>Wireshark</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <h2>Python Automation Scripts</h2>
+            <p class="project-desc">
+                Collection of scripts for file organization, log parsing, and basic scraping —
+                written while learning Python from scratch.
+            </p>
+            <div class="project-tags">
+                <span>Python</span><span>requests</span><span>BeautifulSoup</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <h2>MySQL + C Inventory System</h2>
+            <p class="project-desc">
+                University assignment: a C-based inventory manager with MySQL backend.
+                Practiced structs, file I/O, and SQL joins.
+            </p>
+            <div class="project-tags">
+                <span>C</span><span>MySQL</span><span>Makefile</span>
+            </div>
+        </article>
+
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script th:src="@{/js/matrix.js}"></script>
+<div th:replace="~{fragments/layout :: scrollButtons}"></div>
+</body>
+</html>

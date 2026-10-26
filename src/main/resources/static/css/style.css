@@ -1,0 +1,794 @@
+/* =========================================================
+   CMSTechub — Kali/Linux terminal theme
+   ========================================================= */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #000;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    color: #00ff88;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+/* ---- Background layers ---- */
+#terminal-stream {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.22;
+    pointer-events: none;
+}
+
+#matrix {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.10;
+    pointer-events: none;
+}
+
+.vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.85) 100%),
+        linear-gradient(180deg, rgba(0, 20, 10, 0.3), rgba(0, 0, 0, 0.4));
+}
+
+/* ---- Terminal card ---- */
+.terminal-card {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 780px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: rgba(6, 12, 10, 0.92);
+    border: 1px solid #00ff88;
+    border-radius: 10px;
+    box-shadow:
+        0 0 25px rgba(0, 255, 136, 0.25),
+        0 0 60px rgba(0, 255, 136, 0.10),
+        inset 0 0 60px rgba(0, 255, 136, 0.03);
+    backdrop-filter: blur(3px);
+    animation: cardPulse 4s ease-in-out infinite;
+}
+
+@keyframes cardPulse {
+    0%, 100% { box-shadow: 0 0 25px rgba(0,255,136,0.25), 0 0 60px rgba(0,255,136,0.10), inset 0 0 60px rgba(0,255,136,0.03); }
+    50%      { box-shadow: 0 0 40px rgba(0,255,136,0.40), 0 0 90px rgba(0,255,136,0.18), inset 0 0 80px rgba(0,255,136,0.06); }
+}
+
+/* Scrollbar */
+.terminal-card::-webkit-scrollbar { width: 8px; }
+.terminal-card::-webkit-scrollbar-track { background: rgba(0,255,136,0.03); }
+.terminal-card::-webkit-scrollbar-thumb { background: rgba(0,255,136,0.35); border-radius: 4px; }
+
+/* ---- Title bar ---- */
+.titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(0, 30, 15, 0.85);
+    border-bottom: 1px solid rgba(0, 255, 136, 0.25);
+    border-radius: 9px 9px 0 0;
+    font-size: 0.78rem;
+    position: sticky;
+    top: 0;
+    z-index: 4;
+}
+
+.titlebar .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dot.red    { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green  { background: #27c93f; }
+
+.titlebar-text {
+    margin-left: 8px;
+    color: #7affb4;
+    letter-spacing: 0.5px;
+    opacity: 0.85;
+}
+
+/* ---- Terminal body ---- */
+.terminal-body {
+    padding: 20px 24px 24px;
+    font-size: 0.92rem;
+    line-height: 1.65;
+}
+
+/* ---- Prompt lines ---- */
+.prompt {
+    margin: 12px 0 6px;
+    font-size: 0.88rem;
+    color: #00ff88;
+}
+
+.prompt.bottom { margin-top: 20px; }
+
+.user  { color: #00ff88; font-weight: 600; }
+.colon { color: #00aa66; }
+.path  { color: #00ccff; }
+.dollar { color: #ffbd2e; margin: 0 6px 0 2px; }
+.cmd   { color: #e8f8f0; }
+
+.cursor {
+    display: inline-block;
+    color: #00ff88;
+    margin-left: 2px;
+    transition: opacity 0.05s;
+}
+
+/* ---- Profile ---- */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin: 6px 0 4px;
+}
+
+.avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00ff88;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.55);
+    flex-shrink: 0;
+    animation: avatarGlow 3s ease-in-out infinite;
+}
+
+@keyframes avatarGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,255,136,0.55); }
+    50%      { box-shadow: 0 0 35px rgba(0,255,136,0.85); }
+}
+
+.profile-info h1 {
+    color: #b4ffd4;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    text-shadow: 0 0 12px rgba(0, 255, 136, 0.55);
+}
+
+.profile-info h2 {
+    color: #00ccff;
+    font-size: 0.92rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* ---- Output paragraph ---- */
+.output {
+    color: #9fd8b8;
+    font-size: 0.9rem;
+    margin: 4px 0 10px 16px;
+    border-left: 2px solid rgba(0, 255, 136, 0.35);
+    padding-left: 14px;
+    white-space: pre-wrap;
+}
+
+/* ---- Links list ---- */
+.links {
+    list-style: none;
+    margin: 4px 0 10px 16px;
+    font-size: 0.88rem;
+}
+
+.links li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.links .key {
+    color: #ffbd2e;
+    min-width: 90px;
+    font-weight: 600;
+}
+
+.links a {
+    color: #00ff88;
+    text-decoration: none;
+    transition: all 0.15s;
+    position: relative;
+}
+
+.links a::before {
+    content: '→ ';
+    color: #00aa66;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.links a:hover {
+    color: #b4ffd4;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.85);
+}
+
+.links a:hover::before {
+    opacity: 1;
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 600px) {
+    body { padding: 12px; }
+    .terminal-card { max-height: 96vh; }
+    .terminal-body { padding: 16px; }
+    .profile { flex-direction: column; text-align: center; gap: 14px; }
+    .profile-info h1 { font-size: 1.2rem; }
+    .links .key { min-width: 75px; font-size: 0.82rem; }
+    .output { margin-left: 8px; }
+    .links  { margin-left: 8px; }
+}
+
+/* ---- Rich animated background base ---- */
+body {
+    background:
+        radial-gradient(circle at 50% 40%, rgba(0, 60, 30, 0.20), transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(0, 80, 40, 0.10), transparent 60%),
+        #000;
+}
+
+/* Let the rain show through more than before */
+#matrix {
+    opacity: 0.55;   /* was 0.25 — much more visible now */
+    z-index: 0;
+}
+
+/* Ensure the resume card still sits on top */
+.resume {
+    z-index: 5;
+}
+
+/* =========================================================
+   MULTI-PAGE SITE — nav, footer, hero, cards, chips
+   ========================================================= */
+
+/* --- Top Nav --- */
+.topnav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(0, 8, 4, 0.88);
+    border-bottom: 1px solid rgba(0, 255, 136, 0.25);
+    backdrop-filter: blur(8px);
+}
+
+.nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.brand {
+    text-decoration: none;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: #00ff88;
+    white-space: nowrap;
+}
+.brand-prompt { color: #00ff88; font-weight: 600; }
+.brand-path   { color: #00ccff; }
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.nav-links a {
+    display: block;
+    padding: 8px 14px;
+    color: #7affb4;
+    text-decoration: none;
+    font-size: 0.85rem;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    transition: all 0.15s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #00ff88;
+    border-color: rgba(0, 255, 136, 0.4);
+    background: rgba(0, 255, 136, 0.08);
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: 1px solid rgba(0, 255, 136, 0.4);
+    color: #00ff88;
+    font-size: 1.2rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* --- Page content area --- */
+.page-content {
+    position: relative;
+    z-index: 5;
+    max-width: 1100px;
+    margin: 100px auto 40px;
+    padding: 0 24px;
+}
+
+.page-header {
+    margin-bottom: 40px;
+}
+
+.page-header .prompt-line {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    color: #7affb4;
+}
+.page-header .puser  { color: #00ff88; }
+.page-header .ppath  { color: #00ccff; }
+.page-header .pcmd   { color: #e8f8f0; }
+
+.page-header h1 {
+    color: #b4ffd4;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+/* --- Hero (home page) --- */
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 40px;
+    background: rgba(6, 12, 10, 0.88);
+    border: 1px solid rgba(0, 255, 136, 0.35);
+    border-radius: 14px;
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.15);
+    margin-bottom: 40px;
+    backdrop-filter: blur(4px);
+    flex-wrap: wrap;
+}
+
+.hero-avatar {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #00ff88;
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+    animation: avatarGlow 3s ease-in-out infinite;
+}
+
+@keyframes avatarGlow {
+    0%, 100% { box-shadow: 0 0 30px rgba(0,255,136,0.6); }
+    50%      { box-shadow: 0 0 50px rgba(0,255,136,0.9); }
+}
+
+.hero-text { flex: 1; min-width: 260px; }
+.hero-text h1 {
+    color: #b4ffd4;
+    font-size: 2.4rem;
+    margin-bottom: 8px;
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.55);
+}
+.hero-text h2 {
+    color: #00ccff;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+.hero-summary {
+    color: #9fd8b8;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 600px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-primary, .btn-ghost {
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-family: 'Fira Code', monospace;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #00ff88;
+    color: #001a0a;
+    font-weight: 600;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+.btn-primary:hover {
+    box-shadow: 0 0 35px rgba(0, 255, 136, 0.9);
+    transform: translateY(-2px);
+}
+
+.btn-ghost {
+    border: 1px solid rgba(0, 255, 136, 0.5);
+    color: #00ff88;
+    background: transparent;
+}
+.btn-ghost:hover {
+    background: rgba(0, 255, 136, 0.1);
+    border-color: #00ff88;
+}
+
+/* --- Quick links (home) --- */
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.quick-card {
+    background: rgba(6, 12, 10, 0.88);
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    backdrop-filter: blur(4px);
+}
+
+.quick-card:hover {
+    border-color: #00ff88;
+    box-shadow: 0 0 25px rgba(0, 255, 136, 0.3);
+    transform: translateY(-4px);
+}
+
+.quick-icon  { font-size: 2rem; }
+.quick-title {
+    color: #00ff88;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.quick-desc  { color: #9fd8b8; font-size: 0.88rem; line-height: 1.5; }
+
+/* --- Content blocks (about, contact) --- */
+.content-block {
+    background: rgba(6, 12, 10, 0.85);
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    border-left: 3px solid #00ff88;
+    border-radius: 0 10px 10px 0;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(4px);
+}
+
+.content-block h2 {
+    color: #00ff88;
+    font-size: 1.15rem;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+}
+
+.content-block p {
+    color: #9fd8b8;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 10px;
+}
+
+/* --- Project grid --- */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.project-card {
+    background: rgba(6, 12, 10, 0.88);
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    backdrop-filter: blur(4px);
+}
+
+.project-card:hover {
+    border-color: #00ff88;
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.25);
+    transform: translateY(-3px);
+}
+
+.project-card h2 {
+    color: #00ff88;
+    font-size: 1.15rem;
+    margin: 0;
+}
+
+.project-desc {
+    color: #9fd8b8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.project-tags span {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    border: 1px solid rgba(0, 255, 136, 0.35);
+    border-radius: 4px;
+    color: #7affb4;
+    background: rgba(0, 255, 136, 0.06);
+}
+
+.project-link {
+    color: #00ccff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
+.project-link:hover { color: #00ff88; text-shadow: 0 0 10px rgba(0, 255, 136, 0.6); }
+
+/* --- Skill chips --- */
+.skill-group {
+    margin-bottom: 32px;
+    background: rgba(6, 12, 10, 0.85);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    border-radius: 12px;
+    padding: 22px 26px;
+    backdrop-filter: blur(4px);
+}
+
+.skill-group h2 {
+    color: #00ff88;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    padding: 8px 14px;
+    border: 1px solid rgba(0, 255, 136, 0.4);
+    border-radius: 6px;
+    color: #7affb4;
+    background: rgba(0, 255, 136, 0.08);
+    font-size: 0.85rem;
+    transition: all 0.15s;
+    font-family: 'Fira Code', monospace;
+}
+
+.chip:hover {
+    color: #00ff88;
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.18);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+    transform: translateY(-2px);
+}
+
+/* --- Contact cards --- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.contact-card {
+    background: rgba(6, 12, 10, 0.88);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 12px;
+    padding: 28px 22px;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.contact-card:hover {
+    border-color: #00ff88;
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+    transform: translateY(-3px);
+}
+
+.contact-icon  { font-size: 2.2rem; }
+.contact-label {
+    color: #00ff88;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.contact-value { color: #9fd8b8; font-size: 0.9rem; word-break: break-all; }
+
+/* --- Footer --- */
+.site-footer {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 28px 20px;
+    margin-top: 40px;
+    border-top: 1px solid rgba(0, 255, 136, 0.15);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+    color: #6fb890;
+}
+
+.footer-prompt { color: #00ff88; }
+.footer-text   { color: #6fb890; margin-left: 4px; }
+.footer-cursor {
+    color: #00ff88;
+    margin-left: 2px;
+    animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* --- Mobile --- */
+@media (max-width: 780px) {
+    .nav-inner { padding: 10px 16px; gap: 12px; }
+    .nav-toggle { display: block; }
+    .nav-links {
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        flex-direction: column;
+        background: rgba(0, 8, 4, 0.97);
+        border-bottom: 1px solid rgba(0, 255, 136, 0.25);
+        padding: 8px;
+        display: none;
+        margin-left: 0;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { text-align: center; }
+
+    .page-content { margin-top: 90px; padding: 0 16px; }
+    .page-header h1 { font-size: 1.6rem; }
+
+    .hero { padding: 24px; gap: 24px; text-align: center; justify-content: center; }
+    .hero-text h1 { font-size: 1.7rem; }
+    .hero-avatar { width: 120px; height: 120px; }
+    .hero-actions { justify-content: center; }
+}
+
+/* =========================================================
+   FLOATING SCROLL BUTTONS
+   ========================================================= */
+
+.scroll-fab-group {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.scroll-fab {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(0, 20, 10, 0.9);
+    border: 1.5px solid #00ff88;
+    color: #00ff88;
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow:
+        0 0 15px rgba(0, 255, 136, 0.35),
+        inset 0 0 10px rgba(0, 255, 136, 0.08);
+    font-family: 'Fira Code', monospace;
+    padding: 0;
+    line-height: 1;
+}
+
+.scroll-fab:hover {
+    background: rgba(0, 255, 136, 0.15);
+    color: #b4ffd4;
+    box-shadow:
+        0 0 30px rgba(0, 255, 136, 0.7),
+        inset 0 0 20px rgba(0, 255, 136, 0.15);
+    transform: scale(1.08);
+}
+
+.scroll-fab:active {
+    transform: scale(0.96);
+}
+
+/* Top button: hidden until scrolled down */
+#scroll-top-btn {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+}
+
+#scroll-top-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* Mobile tweak */
+@media (max-width: 600px) {
+    .scroll-fab-group {
+        right: 16px;
+        bottom: 16px;
+        gap: 10px;
+    }
+    .scroll-fab {
+        width: 46px;
+        height: 46px;
+        font-size: 1.3rem;
+    }
+}
+
+/* Make FAB buttons slightly transparent so they don't block text */
+.scroll-fab {
+    opacity: 0.7;
+}
+.scroll-fab:hover {
+    opacity: 1;
+}
+
+/* On the home page, give the content room to breathe */
+.page-content {
+    padding-bottom: 60px; /* Prevents footer from touching the last card */
+}
