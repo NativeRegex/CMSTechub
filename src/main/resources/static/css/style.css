@@ -792,3 +792,27 @@ body {
 .page-content {
     padding-bottom: 60px; /* Prevents footer from touching the last card */
 }
+
+/* ---------- Hero Typewriter ---------- */
+.hero-typewriter {
+    font-family: 'Fira Code', monospace;
+    font-size: 1.05rem;
+    color: #00ff88;
+    margin: 12px 0 20px;
+    min-height: 1.5em;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.typewriter-caret {
+    display: inline-block;
+    color: #00ff88;
+    font-weight: bold;
+    animation: caretBlink 1s steps(2) infinite;
+    margin-left: 2px;
+}
+
+@keyframes caretBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}

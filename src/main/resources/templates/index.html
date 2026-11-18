@@ -16,6 +16,12 @@
         <div class="hero-text">
             <h1 th:text="${profile.fullName}">Your Name</h1>
             <h2 th:text="${profile.title}">Title</h2>
+
+            <!-- TYPEWRITER -->
+            <p class="hero-typewriter">
+                <span id="typewriter"></span><span class="typewriter-caret">|</span>
+            </p>
+
             <p class="hero-summary" th:text="${profile.summary}">Summary</p>
             <div class="hero-actions">
                 <a th:href="@{/projects}" class="btn-primary">view projects →</a>
@@ -47,6 +53,63 @@
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 
 <script th:src="@{/js/matrix.js}"></script>
+<script>
+(function () {
+    const target = document.getElementById('typewriter');
+    if (!target) return;
+
+    const phrases = [
+        "Hi, I'm Calistus Masinde Sirucha.",
+        "I'm an IT student at Kaimosi Friends University.",
+        "I'm the founder of CMSTechub.",
+        "I build web applications.",
+        "I set up secure networks.",
+        "I repair computer hardware.",
+        "I design and manage databases.",
+        "I do cybersecurity & ethical hacking.",
+        "I install and recover software.",
+        "I tutor IT students.",
+        "I recommend and set up cloud services.",
+        "I configure email & business tools.",
+        "I fix printers & peripherals.",
+        "I do IT consultancy for small businesses.",
+        "I back up and recover your data."
+    ];
+
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    const TYPE_SPEED = 60;
+    const DELETE_SPEED = 30;
+    const PAUSE_BETWEEN = 2200;
+    const PAUSE_BEFORE_TYPE = 500;
+
+    function tick() {
+        const phrase = phrases[phraseIndex];
+        if (!deleting) {
+            charIndex++;
+            target.textContent = phrase.substring(0, charIndex);
+            if (charIndex === phrase.length) {
+                deleting = true;
+                setTimeout(tick, PAUSE_BETWEEN);
+                return;
+            }
+            setTimeout(tick, TYPE_SPEED);
+        } else {
+            charIndex--;
+            target.textContent = phrase.substring(0, charIndex);
+            if (charIndex === 0) {
+                deleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(tick, PAUSE_BEFORE_TYPE);
+                return;
+            }
+            setTimeout(tick, DELETE_SPEED);
+        }
+    }
+    tick();
+})();
+</script>
 <div th:replace="~{fragments/layout :: scrollButtons}"></div>
 </body>
 </html>
