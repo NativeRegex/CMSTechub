@@ -14,15 +14,20 @@
             <img th:src="@{/images/profile.jpg}" alt="Profile" class="hero-avatar"/>
         </div>
         <div class="hero-text">
-            <h1 th:text="${profile.fullName}">Your Name</h1>
-            <h2 th:text="${profile.title}">Title</h2>
+            <h1 th:text="${profile.fullName}">Calistus Masinde Sirucha</h1>
+            <h2 th:text="${profile.title}">Full-Stack Developer &amp; IT Services Consultant</h2>
 
-            <!-- TYPEWRITER -->
-            <p class="hero-typewriter">
-                <span id="typewriter"></span><span class="typewriter-caret">|</span>
-            </p>
+            <div class="terminal-hero">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">calistus@cmstechub:~$</span>
+                    <span class="terminal-cmd" id="live-cmd"></span>
+                    <span class="typewriter-caret">_</span>
+                </div>
+                <div class="terminal-output" id="live-output" style="opacity: 0; transition: opacity 0.2s ease;"></div>
+            </div>
 
             <p class="hero-summary" th:text="${profile.summary}">Summary</p>
+
             <div class="hero-actions">
                 <a th:href="@{/projects}" class="btn-primary">view projects →</a>
                 <a th:href="@{/contact}"  class="btn-ghost">get in touch</a>
@@ -39,12 +44,12 @@
         <a th:href="@{/projects}" class="quick-card">
             <span class="quick-icon">⚙️</span>
             <span class="quick-title">projects</span>
-            <span class="quick-desc">Things I've built and shipped.</span>
+            <span class="quick-desc">5 live projects — problem → solution → stack.</span>
         </a>
         <a th:href="@{/skills}" class="quick-card">
             <span class="quick-icon">🛠️</span>
             <span class="quick-title">skills</span>
-            <span class="quick-desc">Languages, frameworks, and tools.</span>
+            <span class="quick-desc">Languages, frameworks, tools, and systems.</span>
         </a>
     </section>
 
@@ -55,59 +60,62 @@
 <script th:src="@{/js/matrix.js}"></script>
 <script>
 (function () {
-    const target = document.getElementById('typewriter');
-    if (!target) return;
+    const cmdEl    = document.getElementById('live-cmd');
+    const outEl    = document.getElementById('live-output');
+    if (!cmdEl || !outEl) return;
 
-    const phrases = [
-        "Hi, I'm Calistus Masinde Sirucha.",
-        "I'm an IT student at Kaimosi Friends University.",
-        "I'm the founder of CMSTechub.",
-        "I build web applications.",
-        "I set up secure networks.",
-        "I repair computer hardware.",
-        "I design and manage databases.",
-        "I do cybersecurity & ethical hacking.",
-        "I install and recover software.",
-        "I tutor IT students.",
-        "I recommend and set up cloud services.",
-        "I configure email & business tools.",
-        "I fix printers & peripherals.",
-        "I do IT consultancy for small businesses.",
-        "I back up and recover your data."
+    const sequence = [
+        { cmd: 'whoami',                 out: 'calistus masinde sirucha' },
+        { cmd: 'cat role.txt',           out: 'IT Specialist · Full-Stack Developer · IT Services Provider' },
+        { cmd: 'cat study.txt',          out: 'BSc. Information Technology · Kaimosi Friends University' },
+        { cmd: 'ls ~/projects',          out: 'CMSTechub  KAFU-Sports  CMS-Marketplace  Kali-Lab' },
+        { cmd: 'cat stack.json',         out: 'Java · Spring Boot · React · PostgreSQL · Kali Linux' },
+        { cmd: 'cat services.txt',       out: 'Web Dev · Networking · Hardware · Security · Tutoring' },
+        { cmd: 'cat location.txt',       out: 'Kakamega, Kenya' },
+        { cmd: 'cat status.txt',         out: 'available for freelance & collaboration' },
+        { cmd: 'uptime',                 out: 'online · 4 live deployed apps · always learning' }
     ];
 
-    let phraseIndex = 0;
+    let seqIndex = 0;
     let charIndex = 0;
-    let deleting = false;
-    const TYPE_SPEED = 60;
-    const DELETE_SPEED = 30;
-    const PAUSE_BETWEEN = 2200;
-    const PAUSE_BEFORE_TYPE = 500;
+    let phase = 'typing';
+
+    function rand(min, max) { return min + Math.random() * (max - min); }
 
     function tick() {
-        const phrase = phrases[phraseIndex];
-        if (!deleting) {
+        const step = sequence[seqIndex];
+
+        if (phase === 'typing') {
             charIndex++;
-            target.textContent = phrase.substring(0, charIndex);
-            if (charIndex === phrase.length) {
-                deleting = true;
-                setTimeout(tick, PAUSE_BETWEEN);
+            cmdEl.textContent = step.cmd.substring(0, charIndex);
+            if (charIndex === step.cmd.length) {
+                phase = 'pausing';
+                setTimeout(tick, 400);
                 return;
             }
-            setTimeout(tick, TYPE_SPEED);
-        } else {
-            charIndex--;
-            target.textContent = phrase.substring(0, charIndex);
-            if (charIndex === 0) {
-                deleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                setTimeout(tick, PAUSE_BEFORE_TYPE);
-                return;
-            }
-            setTimeout(tick, DELETE_SPEED);
+            setTimeout(tick, rand(50, 90));
+        } else if (phase === 'pausing') {
+            outEl.textContent = step.out;
+            outEl.style.opacity = '1';
+            phase = 'showing';
+            setTimeout(tick, 2400);
+        } else if (phase === 'showing') {
+            outEl.style.opacity = '0';
+            phase = 'erasing';
+            setTimeout(tick, 200);
+        } else if (phase === 'erasing') {
+            cmdEl.textContent = '';
+            charIndex = 0;
+            seqIndex = (seqIndex + 1) % sequence.length;
+            phase = 'typing';
+            setTimeout(tick, 300);
         }
     }
-    tick();
+
+    cmdEl.textContent = '';
+    outEl.textContent = '';
+    outEl.style.opacity = '0';
+    setTimeout(tick, 600);
 })();
 </script>
 <div th:replace="~{fragments/layout :: scrollButtons}"></div>

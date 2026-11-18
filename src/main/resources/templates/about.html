@@ -22,12 +22,13 @@
     </section>
 
     <section class="content-block">
-        <h2>What I Study</h2>
-        <p>
-            Currently pursuing an IT degree while applying everything I learn to real projects.
-            My focus areas are full-stack development (Spring Boot + modern front-end),
-            database design, and Linux fundamentals — including Kali Linux for security testing.
-        </p>
+        <h2>Experience &amp; Industrial Training</h2>
+        <p style="white-space: pre-line;" th:text="${profile.experience}">Experience</p>
+    </section>
+
+    <section class="content-block">
+        <h2>Education</h2>
+        <p style="white-space: pre-line;" th:text="${profile.education}">Education</p>
     </section>
 
     <section class="content-block">
@@ -36,6 +37,16 @@
             <strong>CMSTechub</strong> comes from my initials (C.M.S.) plus <em>Techub</em> — a
             place where my tech experiments, projects, and services live. It's my personal brand
             and my playground for building things that matter.
+        </p>
+    </section>
+
+    <section class="content-block">
+        <h2>Get In Touch</h2>
+        <p>
+            <strong>Email:</strong> <a th:href="'mailto:' + ${profile.email}" th:text="${profile.email}" style="color: #00ff88;"></a><br/>
+            <strong>LinkedIn:</strong> <a th:href="${profile.linkedin}" target="_blank" style="color: #00ff88;">calistus-sirucha</a><br/>
+            <strong>GitHub:</strong> <a th:href="${profile.github}" target="_blank" style="color: #00ff88;">NativeRegex</a><br/>
+            <strong>Location:</strong> <span th:text="${profile.location}">Location</span>
         </p>
     </section>
 
